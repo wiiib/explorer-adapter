@@ -2,7 +2,17 @@ import { defineBuildConfig } from 'unbuild'
 
 export default defineBuildConfig({
   entries: [
-    './src/index',
+    {
+      builder: 'rollup',
+      input: 'src/index',
+      outDir: 'dist',
+    },
+    {
+      name: 'resolvers',
+      builder: 'rollup',
+      input: 'src/resolvers/index',
+      outDir: 'dist',
+    },
   ],
   rollup: {
     emitCJS: true,
@@ -12,4 +22,7 @@ export default defineBuildConfig({
     },
   },
   declaration: true,
+  externals: [
+    '@voire/type-utils',
+  ],
 })

@@ -1,13 +1,14 @@
 {
   "name": "@wiiib/explorer-adapter",
   "description": "Adapter for generating urls for different web3 explorers",
-  "version": "0.0.0-development",
+  "version": "1.0.0",
   "license": "MIT",
   "type": "module",
   "author": "Pavel Yankovski <https://github.com/pyncz>",
   "keywords": [
     "typescript",
     "web3",
+    "ethereum",
     "utils"
   ],
   "scripts": {
@@ -21,6 +22,10 @@
     ".": {
       "import": "./dist/index.mjs",
       "require": "./dist/index.cjs"
+    },
+    "./resolvers": {
+      "import": "./dist/resolvers.mjs",
+      "require": "./dist/resolvers.cjs"
     }
   },
   "files": [
@@ -28,7 +33,10 @@
   ],
   "main": "./dist/index.cjs",
   "types": "./dist/index.d.ts",
-  "dependencies": {},
+  "dependencies": {
+    "@voire/type-utils": "^1.2.0",
+    "ufo": "^1.1.1"
+  },
   "devDependencies": {
     "@antfu/eslint-config": "^0.26.2",
     "@antfu/ni": "^0.17.2",
@@ -38,7 +46,7 @@
     "simple-git": "^2.47.0",
     "simple-git-hooks": "^2.7.0",
     "typescript": "^4.8.4",
-    "unbuild": "^0.7.4",
+    "unbuild": "^1.1.2",
     "vitest": "^0.24.5"
   },
   "repository": {
