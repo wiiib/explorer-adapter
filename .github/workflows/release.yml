@@ -3,7 +3,7 @@ name: Release npm package
 on:
   push:
     branches:
-      - some-branch # Your release branch
+      - main
 
 jobs:
   notify_start:
@@ -19,14 +19,40 @@ jobs:
           message: |
             🚀 Creating release for ${{ github.repository }}...
 
-  build:
+  check:
+    name: Check if the new release is needed
     runs-on: ubuntu-18.04
     outputs:
-      published: ${{ steps.release.outputs.new-release-published }}
-      version: ${{ steps.release.outputs.release-version }}
-    strategy:
-      matrix:
-        node-version: [16.x]
+      tag: ${{ steps.bump.outputs.new_tag }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Check new version
+        id: bump
+        uses: mathieudutour/github-tag-action@v6.1
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          dry_run: true
+          default_bump: false
+          default_prerelease_bump: false
+
+      - name: Log new version
+        if: ${{ steps.bump.outputs.new_tag }}
+        run: echo "🚀 New version ${{ steps.bump.outputs.new_tag }} is about to get published..."
+
+      - name: Log skipping of new version
+        if: ${{ !steps.bump.outputs.new_tag }}
+        run: echo "🌚 Release not needed."
+
+  build:
+    if: ${{ needs.check.outputs.tag }}
+    runs-on: ubuntu-18.04
+    needs:
+      - check
 
     steps:
       - name: Checkout
@@ -53,15 +79,12 @@ jobs:
       - name: Test
         run: |
           pnpm run test
-        env:
-          VITE_INFURA_PROJECT_ID: ${{ secrets.INFURA_PROJECT_ID }}
 
       - name: Build artifacts
         run: |
           pnpm run build
 
       - name: Semantic release
-        id: release
         run: npx semantic-release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -75,16 +98,16 @@ jobs:
       - build
     steps:
       - name: Notification about publishing
-        if: ${{ needs.build.outputs.published }}
+        if: ${{ needs.check.outputs.tag }}
         uses: appleboy/telegram-action@master
         with:
           to: ${{ secrets.TELEGRAM_CHAT_ID }}
           token: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           message: |
-            ✨ Release for ${{ github.repository }}@${{ needs.build.outputs.version }} has been created!
+            ✨ Release for ${{ github.repository }}@${{ needs.check.outputs.tag }} has been created!
 
       - name: Notification about skipping
-        if: ${{ !needs.build.outputs.published }}
+        if: ${{ !needs.check.outputs.tag }}
         uses: appleboy/telegram-action@master
         with:
           to: ${{ secrets.TELEGRAM_CHAT_ID }}
