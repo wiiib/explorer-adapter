@@ -1,5 +1,4 @@
 import type {
-  ExploreAccountOptions,
   ExploreAddressOptions,
   ExploreBlockOptions,
   ExploreContractOptions,
@@ -11,15 +10,13 @@ import type {
 export type DomainResolver = {
   // With addresses
   address: (options: ExploreAddressOptions) => string
-  account: (options: ExploreAccountOptions) => string
 
-  token: (options: ExploreTokenOptions) => string
   contract: (options: ExploreContractOptions) => string
-
-  nftToken: (options: ExploreTokenOptions) => string
   nftContract: (options: ExploreContractOptions) => string
+  token: (options: ExploreTokenOptions) => string
+  nftToken: (options: ExploreTokenOptions) => string
 
-  // System
+  // Blockchain
   tx: (options: ExploreTransactionOptions) => string
   block: (options: ExploreBlockOptions) => string
 }

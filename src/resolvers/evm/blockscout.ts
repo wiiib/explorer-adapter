@@ -6,11 +6,17 @@ import { createResolver } from '../../createResolver'
  * @see {@link https://blockscout.com/xdai/mainnet/}
  */
 export const blockscoutResolver = createResolver({
-  address: ({ address }) => `/address/${address}`, // = account
-  token: ({ address, tokenId }) => tokenId // = nftToken, nftContract, contract
+  address: ({ address }) => `/address/${address}`,
+
+  contract: ({ address }) => `/address/${address}`,
+  token: ({ address, tokenId }) => tokenId
     ? `/token/${address}/instance/${tokenId}`
     : `/token/${address}`,
 
   tx: ({ hash }) => `/tx/${hash}`,
   block: ({ id }) => `/block/${id}`,
+
+  // Defaults:
+  // - nftContract = this.contract
+  // - nftToken = this.token
 })

@@ -7,11 +7,10 @@ import type { Resolver, ResolverConfig, ResolverParsedConfig } from './models'
  *
  * @param config Object of urls making methods for different web3 entities.
  * Additionally, `createResolver` compliments config methods using default values:
- * - for **`account`** getter, `address` getter is used by default
+ * - for **`contract`** getter, `address` getter is used by default
+ * - for **`nftContract`** getter, `contract` or `address` getter is used by default
  * - for **`token`** getter, `address` getter is used by default
- * - for **`contract`** getter, `token` or `address` getter is used by default
  * - for **`nftToken`** getter, `token` or `address` getter is used by default
- * - for **`nftContract`** getter, `nftToken`, `contract` or `address` getter is used by default
  *
  * @returns Set of method for an explorer type.
  */
@@ -19,11 +18,10 @@ export const createResolver = (config: ResolverConfig): Resolver => {
   const input: ResolverParsedConfig = {
     ...config,
 
-    account: config.account ?? config.address,
+    contract: config.contract ?? config.address,
+    nftContract: config.nftContract ?? config.contract ?? config.address,
     token: config.token ?? config.address,
-    contract: config.contract ?? config.token ?? config.address,
     nftToken: config.nftToken ?? config.token ?? config.address,
-    nftContract: config.nftContract ?? config.nftToken ?? config.contract ?? config.address,
   }
 
   return Object.entries(input).reduce((resolver, [methodName, method]: Entry<InferKey<ResolverConfig>, (...options: unknown[]) => ReturnType<ResolverConfig[keyof ResolverConfig]>>) => {

@@ -5,8 +5,14 @@ import { createResolver } from '../../createResolver'
  * @see {@link https://explorer.near.org/}
  */
 export const nearResolver = createResolver({
-  address: ({ address }) => `/accounts/${address}`, // = nftToken, nftContract, token, contract, account
+  address: ({ address }) => `/accounts/${address}`,
 
   tx: ({ hash }) => `/transactions/${hash}`,
   block: ({ id }) => `/blocks/${id}`,
+
+  // Defaults:
+  // - contract = this.address
+  // - nftContract = this.address
+  // - token = this.address
+  // - nftToken = this.address
 })

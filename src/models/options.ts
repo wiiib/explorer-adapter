@@ -5,7 +5,6 @@ export interface ExploreAddressOptions {
 }
 
 export type ExploreContractOptions = ExploreAddressOptions
-export type ExploreAccountOptions = ExploreAddressOptions
 
 export interface ExploreTokenOptions extends ExploreAddressOptions {
   tokenId?: NumberLike

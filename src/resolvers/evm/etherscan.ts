@@ -5,13 +5,19 @@ import { createResolver } from '../../createResolver'
  * @see {@link https://bscscan.com/}
  */
 export const etherscanResolver = createResolver({
-  address: ({ address }) => `/address/${address}`, // = account
+  address: ({ address }) => `/address/${address}`,
+
+  contract: ({ address }) => `/address/${address}`,
   token: ({ address, tokenId }) => tokenId
     ? `/token/${address}?a=${tokenId}`
     : `/token/${address}`,
 
   tx: ({ hash }) => `/tx/${hash}`,
   block: ({ id }) => `/block/${id}`,
+
+  // Defaults:
+  // - nftContract = this.contract
+  // - nftToken = this.token
 })
 
 /**
@@ -20,11 +26,17 @@ export const etherscanResolver = createResolver({
  * @see {@link https://etherscan.io/}
 */
 export const etherscanResolverNext = createResolver({
-  address: ({ address }) => `/address/${address}`, // = account
-  token: ({ address, tokenId }) => tokenId // = nftToken, nftContract, contract
+  address: ({ address }) => `/address/${address}`,
+
+  contract: ({ address }) => `/address/${address}`,
+  token: ({ address, tokenId }) => tokenId
     ? `/nft/${address}/${tokenId}`
     : `/token/${address}`,
 
   tx: ({ hash }) => `/tx/${hash}`,
   block: ({ id }) => `/block/${id}`,
+
+  // Defaults:
+  // - nftContract = this.contract
+  // - nftToken = this.token
 })

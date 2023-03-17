@@ -1,3 +1,3 @@
 import type { DomainResolver, Resolver } from './models'
 
-export const createAdapter = <T extends Record<string, Resolver | DomainResolver>>(config: T) => config
+export const createAdapter = <T extends Record<string, Resolver> | Record<string, DomainResolver>>(config: T) => config

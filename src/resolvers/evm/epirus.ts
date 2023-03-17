@@ -6,10 +6,14 @@ import { createResolver } from '../../createResolver'
  */
 export const epirusResolver = createResolver({
   address: ({ address }) => `/address/${address}`,
-  account: ({ address }) => `/accounts/${address}`,
+
   contract: ({ address }) => `/contracts/${address}`,
-  token: ({ address }) => `/tokens/${address}`, // = nftToken, nftContract
+  token: ({ address }) => `/tokens/${address}`,
 
   tx: ({ hash }) => `/transactions/${hash}`,
   block: ({ id }) => `/blocks/${id}`,
+
+  // Defaults:
+  // - nftContract = this.contract
+  // - nftToken = this.token
 })

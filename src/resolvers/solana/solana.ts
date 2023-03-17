@@ -5,9 +5,14 @@ import { createResolver } from '../../createResolver'
  * @see {@link https://explorer.solana.com/}
  */
 export const solanaResolver = createResolver({
-  address: ({ address }) => `/address/${address}`, // = account
-  token: ({ address }) => `/token/${address}`, // = nftToken, nftContract, contract
+  address: ({ address }) => `/address/${address}`,
 
   tx: ({ hash }) => `/tx/${hash}`,
   block: ({ id }) => `/block/${id}`,
+
+  // Defaults:
+  // - contract (aka program) = this.address
+  // - nftContract (aka program) = this.address
+  // - token = this.address
+  // - nftToken = this.address
 })

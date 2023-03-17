@@ -1,13 +1,13 @@
 import { createResolver } from '../../createResolver'
 
 /**
- * A resolver for the Aptos Explorer.
- * @see {@link https://explorer.aptoslabs.com/}
+ * A resolver for the Apscan explorer.
+ * @see {@link https://apscan.io/}
  */
-export const aptosResolver = createResolver({
+export const apscanResolver = createResolver({
   address: ({ address }) => `/account/${address}`,
 
-  tx: ({ hash }) => `/txn/${hash}`,
+  tx: ({ hash }) => `/tx/${hash}`,
   block: ({ id }) => `/block/${id}`,
 
   // Defaults:
