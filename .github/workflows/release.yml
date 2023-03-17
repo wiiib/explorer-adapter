@@ -7,7 +7,7 @@ on:
 
 jobs:
   notify_start:
-    if: ${{ secrets.TELEGRAM_CHAT_ID && secrets.TELEGRAM_BOT_TOKEN }}
+    if: secrets.TELEGRAM_CHAT_ID && secrets.TELEGRAM_BOT_TOKEN
     name: Notify about start releasing
     runs-on: ubuntu-latest
     steps:
@@ -95,7 +95,7 @@ jobs:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
 
   notify_end:
-    if: ${{ secrets.TELEGRAM_CHAT_ID && secrets.TELEGRAM_BOT_TOKEN }}
+    if: secrets.TELEGRAM_CHAT_ID && secrets.TELEGRAM_BOT_TOKEN
     name: Notify about finish releasing
     runs-on: ubuntu-latest
     needs:
