@@ -50,9 +50,13 @@ jobs:
 
   build:
     if: ${{ needs.check.outputs.tag }}
+    name: Build and publish
     runs-on: ubuntu-18.04
     needs:
       - check
+    strategy:
+      matrix:
+        node-version: [16.x]
 
     steps:
       - name: Checkout
