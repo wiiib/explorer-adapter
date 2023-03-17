@@ -6,8 +6,23 @@ on:
       - main
 
 jobs:
+  chat_vars:
+    name: Store telegram variables
+    runs-on: ubuntu-18.04
+    outputs:
+      id: ${{ steps.store.outputs.id }}
+      token: ${{ steps.store.outputs.token }}
+
+    steps:
+      - name: Store vars
+        run: |
+          run: echo "id=${{secrets.TELEGRAM_CHAT_ID}}" >> $GITHUB_OUTPUT
+          run: echo "token=${{secrets.TELEGRAM_BOT_TOKEN}}" >> $GITHUB_OUTPUT
+
   notify_start:
-    if: secrets.TELEGRAM_CHAT_ID && secrets.TELEGRAM_BOT_TOKEN
+    if: ${{ needs.chat_vars.outputs.id && needs.chat_vars.outputs.token }}
+    needs:
+      - chat_vars
     name: Notify about start releasing
     runs-on: ubuntu-latest
     steps:
@@ -95,7 +110,7 @@ jobs:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
 
   notify_end:
-    if: secrets.TELEGRAM_CHAT_ID && secrets.TELEGRAM_BOT_TOKEN
+    if: ${{ needs.chat_vars.outputs.id && needs.chat_vars.outputs.token }}
     name: Notify about finish releasing
     runs-on: ubuntu-latest
     needs:
