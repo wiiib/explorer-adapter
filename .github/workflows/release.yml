@@ -112,6 +112,7 @@ jobs:
     runs-on: ubuntu-latest
     needs:
       - build
+      - check
     steps:
       - name: Notification about publishing
         if: ${{ needs.check.outputs.tag }}
