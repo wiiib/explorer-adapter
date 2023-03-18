@@ -94,7 +94,7 @@ import { etherscanResolver } from '@wiiib/explorer-adapter/resolvers'
 ```
 
 > **Warning**
-> To make such module's imports work, don't forget to set `"compilerOptions.moduleResolution": "nodenext"` in your app's *tsconfig.json* and `"type": "module"` in its *package.json*.
+> To make such modules' imports work, don't forget to set `"compilerOptions.moduleResolution": "nodenext"` in your app's *tsconfig.json* and `"type": "module"` in its *package.json*. Or you can go with `commonjs` and just import resolvers from `@wiiib/explorer-adapter/dist/resolvers`
 
 The full list of represented resolvers:
 

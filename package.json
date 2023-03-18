@@ -28,7 +28,8 @@
       "import": "./dist/resolvers.mjs",
       "require": "./dist/resolvers.cjs",
       "types": "./dist/resolvers.d.ts"
-    }
+    },
+    "./*": "./*"
   },
   "files": [
     "dist"
