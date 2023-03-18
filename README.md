@@ -58,9 +58,10 @@ myCustomResolver.token('https://test.com/' { address: '0xABC...123'})
 
 [See details](#usage)
 
----
+[View on npm.js](https://www.npmjs.com/package/@wiiib/explorer-adapter)
 
-## Why?
+
+### Why?
 
 <small>
 When building an NFT marketplace or any other dApp where you want to display the token data, you will probably need to add some "View on explorer" link on the token page.
@@ -75,7 +76,7 @@ Not to mention copying such utilities from app to app...
 Well, this package provides an easy way to manage such resolvers with an adapter for different explorers.
 </small>
 
-## Install
+# Install
 
 Install the package as a dependency with your prefered package manager:
 
@@ -83,9 +84,9 @@ Install the package as a dependency with your prefered package manager:
 pnpm i @wiiib/explorer-adapter
 ```
 
-## Usage
+# Usage
 
-### Resolvers
+## Resolvers
 
 The package provides multiple pre-created resolvers for popular blockchain explorers. You can import them from `@wiiib/explorer-adapter/resolvers`:
 ```ts
@@ -108,11 +109,11 @@ The full list of represented resolvers:
 | `nearResolver` | A resolver for the NEAR Explorer | https://explorer.near.org/ |
 | `nearblocksResolver` | A resolver for the NearBlocks explorer | https://nearblocks.io/ |
 
-#### Methods
+### Methods
 
 Each of the available resolvers implements the same interface and provides following methods:
 
-##### `address(base, options)`
+#### `address(base, options)`
 Constructs the link for viewing the address page.
 Options
 - `base` - explorer's base URL
@@ -121,7 +122,7 @@ Options
   { address: string }
   ```
 
-##### `contract(base, options)`
+#### `contract(base, options)`
 Constructs the link for viewing the contract page.
 Options
 - `base` - explorer's base URL
@@ -130,7 +131,7 @@ Options
   { address: string }
   ```
 
-##### `nftContract(base, options)`
+#### `nftContract(base, options)`
 Constructs the link for viewing the NFT collection page.
 Options
 - `base` - explorer's base URL
@@ -139,7 +140,7 @@ Options
   { address: string }
   ```
 
-##### `token(base, options)`
+#### `token(base, options)`
 Constructs the link for viewing the token page (incl. non-NFT).
 Options
 - `base` - explorer's base URL
@@ -148,7 +149,7 @@ Options
   { address: string; tokenId?: number | `${number}` | `0x${string}` }
   ```
 
-##### `nftToken(base, options)`
+#### `nftToken(base, options)`
 Constructs the link for viewing the NFT token page.
 Options
 - `base` - explorer's base URL
@@ -157,7 +158,7 @@ Options
   { address: string; tokenId?: number | `${number}` | `0x${string}` }
   ```
 
-##### `tx(base, options)`
+#### `tx(base, options)`
 Constructs the link for viewing the specific transaction page.
 Options
 - `base` - explorer's base URL
@@ -166,7 +167,7 @@ Options
   { hash: string }
   ```
 
-##### `block(base, options)`
+#### `block(base, options)`
 Constructs the link for viewing the specific block page.
 Options
 - `base` - explorer's base URL
@@ -184,7 +185,7 @@ Options
 >So, each resolver abover represents the *type* of the explorer. The solution, not just concrete site.
 
 
-#### Pre-set baseURL via `withBaseUrl`
+### Pre-set baseURL via `withBaseUrl`
 
 If may prefer set base URL only once instead of passing it on every method's call. In this case you can use `withBaseUrl` wrapper.
 
@@ -201,7 +202,7 @@ concreteExplorerResolver.tx({ hash: '0xABC...123' })
 ```
 
 
-#### Custom resolvers via `createResolver`
+### Custom resolvers via `createResolver`
 
 Of course, not all the usecases may be covered by the resolvers above. You can create your own resolver with `createResolver` utility.
 
@@ -218,7 +219,7 @@ const myCustomResolver = createResolver({
 In this case, your should provide the structure similar to the resolvers' [methods](#methods) as config, but with several nuances:
 
 - Each method take just its options as argument, without base URL
-- Each method should return the absolute path also **without base URL**. The base URL will be provided in the runtime (if you pass it on every method call) or via [`withBaseUrl`](#pre%20set%20baseURL%20via%20withbaseurl) wrapper.
+- Each method should return the absolute path also **without base URL**. The base URL will be provided in the runtime (if you pass it on every method call) or via [`withBaseUrl`](#pre-set-baseurl-via-withbaseurl) wrapper.
 - Besides applying base URL, `createResolver` also require you to specify only several methods and uses them as defaults for not provided ones. See config's 
 
 `createResolver` config's fields:
@@ -243,7 +244,7 @@ myCustomResolver.token('https://test.com/', { address: '0xABC...123' })
 // > 'https://test.com/custom-address/0xABC...123'
 ```
 
-### Adapter
+## Adapter
 
 You may need to compose your resolvers into an object to access them by key (e.g. by some dynamic param from fetched token's data).
 
