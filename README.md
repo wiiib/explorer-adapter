@@ -93,6 +93,12 @@ The package provides multiple pre-created resolvers for popular blockchain explo
 import { etherscanResolver } from '@wiiib/explorer-adapter/resolvers'
 ```
 
+> **Warning**
+> To make such module's imports work, don't forget to set `"compilerOptions.moduleResolution": "nodenext"` in your app's *tsconfig.json* and `"type": "module"` in its *package.json*.
+> ```json
+>  "moduleResolution": "nodenext"
+> ```
+
 The full list of represented resolvers:
 
 | Export | Description | Example explorers |
