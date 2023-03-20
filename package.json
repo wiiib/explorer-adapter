@@ -15,8 +15,7 @@
     "build": "unbuild",
     "lint": "eslint .",
     "lintfix": "nr lint --fix",
-    "test": "vitest run",
-    "semantic-release": "semantic-release"
+    "test": "vitest run"
   },
   "exports": {
     ".": {
@@ -46,7 +45,6 @@
     "@antfu/ni": "^0.17.2",
     "eslint": "^8.23.0",
     "lint-staged": ">=10",
-    "semantic-release": "^19.0.2",
     "simple-git": "^3.17.0",
     "simple-git-hooks": "^2.8.1",
     "typescript": "^4.8.4",

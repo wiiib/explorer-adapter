@@ -22,8 +22,8 @@ jobs:
     name: Check if the new release is needed
     runs-on: ubuntu-latest
     outputs:
-      will-release: ${{ steps.version.outputs.new-release-published == 'true' }}
-      new-version: ${{ steps.version.outputs.new-release-version }}
+      will-publish: ${{ steps.version.outputs.new-release-published == 'true' }}
+      new-version: ${{ steps.version.outputs.release-version }}
 
     steps:
       - name: Checkout
@@ -33,20 +33,23 @@ jobs:
 
       - name: Check new version
         id: version
-        run: npx semantic-release --dry-run
+        uses: codfish/semantic-release-action@v2
+        with:
+          dry_run: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - name: Log new version
         if: ${{ steps.version.outputs.new-release-published == 'true' }}
-        run: echo "🚀 New version ${{ steps.version.outputs.new-release-version }} is about to get published..."
+        run: echo "🚀 New version ${{ steps.version.outputs.release-version }} is about to get published..."
 
       - name: Log skipping of new version
         if: ${{ steps.version.outputs.new-release-published == 'false' }}
         run: echo "🌚 Release not needed."
 
   build:
-    if: ${{ needs.check.outputs.will-release }}
+    if: ${{ needs.check.outputs.will-publish }}
     name: Build and publish
     runs-on: ubuntu-latest
     needs:
@@ -86,7 +89,7 @@ jobs:
           pnpm run build
 
       - name: Semantic release
-        run: npx semantic-release
+        uses: codfish/semantic-release-action@v2
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
@@ -130,7 +133,7 @@ jobs:
       - check
     steps:
       - name: Notification about publishing
-        if: ${{ needs.check.outputs.will-release }}
+        if: ${{ needs.check.outputs.will-publish }}
         uses: appleboy/telegram-action@master
         with:
           to: ${{ secrets.TELEGRAM_CHAT_ID }}
@@ -139,7 +142,7 @@ jobs:
             ✨ Release for ${{ github.repository }}@${{ needs.check.outputs.new-version }} has been created!
 
       - name: Notification about skipping
-        if: ${{ !needs.check.outputs.will-release }}
+        if: ${{ !needs.check.outputs.will-publish }}
         uses: appleboy/telegram-action@master
         with:
           to: ${{ secrets.TELEGRAM_CHAT_ID }}
