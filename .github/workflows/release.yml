@@ -125,7 +125,7 @@ jobs:
             ✋ Workflow cancelled.
 
   notify_end:
-    if: ${{ success() }}
+    if: ${{ always() && !cancelled() }}
     name: Notify about releasing results
     runs-on: ubuntu-latest
     needs:
